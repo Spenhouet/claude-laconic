@@ -1,0 +1,13 @@
+{
+  "name": "laconic",
+  "displayName": "Laconic",
+  "version": "1.0.0",
+  "description": "Blunt, pragmatic output style with a hard length budget and no AI writing tells.",
+  "author": {
+    "name": "Sebastian Penhouet"
+  },
+  "homepage": "https://github.com/spenhouet/claude-laconic",
+  "repository": "https://github.com/spenhouet/claude-laconic",
+  "license": "MIT",
+  "keywords": ["output-style", "brevity", "writing"]
+}
