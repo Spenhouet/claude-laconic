@@ -1,0 +1,257 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Laconic for Claude Code | Short, plain-language output</title>
+<meta name="description" content="Claude Code plugin that stops walls of text and invented jargon. Answers lead with the point, hard length budgets keep reports short, and the writing stays plain.">
+<link rel="canonical" href="https://spenhouet.github.io/claude-laconic/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Laconic for Claude Code">
+<meta property="og:description" content="Claude Code plugin for short, clear, plain-language output with hard length budgets and no AI writing tells.">
+<meta property="og:url" content="https://spenhouet.github.io/claude-laconic/">
+<meta property="og:image" content="https://spenhouet.github.io/claude-laconic/img/banner.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://spenhouet.github.io/claude-laconic/img/banner.png">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%2317171a'/%3E%3Crect x='7' y='12' width='18' height='3' fill='%23f7f3ee'/%3E%3Crect x='7' y='18' width='18' height='3' fill='%23f7f3ee'/%3E%3C/svg%3E">
+<style>
+  :root {
+    --bg: #f7f3ee;
+    --panel: #fffdfa;
+    --ink: #17171a;
+    --ink-soft: #4c4a46;
+    --accent: #c08a5e;
+    --line: #e2d8cc;
+    --serif: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+    --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    --mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--sans);
+    font-size: 17px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap { max-width: 980px; margin: 0 auto; padding: 0 20px; }
+  img { max-width: 100%; height: auto; display: block; }
+  a { color: var(--ink); text-decoration-color: var(--accent); text-underline-offset: 3px; }
+  a:hover { color: var(--accent); }
+
+  header { padding: 40px 0 8px; }
+  header img { margin: 0 auto; }
+
+  section { padding: 44px 0; border-top: 1px solid var(--line); }
+  section:first-of-type { border-top: 0; }
+  h2 {
+    font-family: var(--serif);
+    font-size: 30px;
+    line-height: 1.2;
+    margin: 0 0 16px;
+    font-weight: 600;
+  }
+  h3 {
+    font-size: 12px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin: 0 0 10px;
+  }
+  p { margin: 0 0 16px; max-width: 68ch; }
+  .lead { font-size: 20px; line-height: 1.5; }
+
+  .cta { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; margin-top: 24px; }
+  .btn {
+    display: inline-block;
+    padding: 11px 20px;
+    border-radius: 999px;
+    background: var(--ink);
+    color: var(--bg);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 15px;
+  }
+  .btn:hover { background: var(--accent); color: #fff; }
+  .btn.ghost { background: transparent; color: var(--ink); border: 1px solid var(--ink); }
+  .btn.ghost:hover { background: var(--ink); color: var(--bg); }
+
+  pre {
+    background: var(--ink);
+    color: #f2ece4;
+    font-family: var(--mono);
+    font-size: 14.5px;
+    line-height: 1.7;
+    padding: 18px 20px;
+    border-radius: 12px;
+    overflow-x: auto;
+    margin: 0;
+  }
+  pre .cmd { color: #e8b98d; }
+  .copy-row { display: flex; align-items: flex-start; gap: 10px; }
+  .copy-row pre { flex: 1; }
+  button.copy {
+    font-family: var(--sans);
+    font-size: 13px;
+    padding: 9px 14px;
+    border: 1px solid var(--line);
+    background: var(--panel);
+    color: var(--ink-soft);
+    border-radius: 8px;
+    cursor: pointer;
+  }
+  button.copy:hover { border-color: var(--accent); color: var(--ink); }
+
+  blockquote.jargon {
+    font-family: var(--serif);
+    font-size: 22px;
+    line-height: 1.45;
+    margin: 0 0 24px;
+    padding: 22px 26px;
+    background: var(--panel);
+    border-left: 3px solid var(--accent);
+    border-radius: 0 12px 12px 0;
+    color: var(--ink);
+  }
+
+  .tweets { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 8px; }
+  .tweets a { display: block; border-radius: 14px; overflow: hidden; border: 1px solid var(--line); background: var(--panel); }
+  .tweets a:hover { border-color: var(--accent); }
+
+  .compare { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  .card { background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 20px 22px; }
+  .card.after { border-color: var(--accent); }
+  .card p { font-size: 15.5px; margin: 0; color: var(--ink-soft); }
+  .card.after p { color: var(--ink); }
+  .card code { font-family: var(--mono); font-size: 14px; background: #efe8df; padding: 1px 5px; border-radius: 4px; }
+  .tag { font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; margin: 0 0 10px; color: var(--ink-soft); }
+  .card.after .tag { color: var(--accent); }
+  .wordcount { font-size: 13px; color: var(--ink-soft); margin: 12px 0 0; font-family: var(--mono); }
+
+  ul.rules { list-style: none; padding: 0; margin: 0; max-width: 76ch; }
+  ul.rules li { padding: 12px 0 12px 28px; border-bottom: 1px solid var(--line); position: relative; }
+  ul.rules li:last-child { border-bottom: 0; }
+  ul.rules li::before {
+    content: "";
+    position: absolute;
+    left: 0; top: 22px;
+    width: 14px; height: 2px;
+    background: var(--accent);
+  }
+
+  footer { border-top: 1px solid var(--line); padding: 28px 0 48px; font-size: 15px; color: var(--ink-soft); }
+  footer p { margin: 0 0 6px; }
+
+  @media (max-width: 760px) {
+    body { font-size: 16px; }
+    h2 { font-size: 25px; }
+    .lead { font-size: 18px; }
+    .tweets, .compare { grid-template-columns: 1fr; }
+    blockquote.jargon { font-size: 19px; padding: 18px 20px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <img src="img/banner.png" alt="Laconic. Less words. More signal. Claude Code plugin for short, clear, plain-language output with hard length budgets and no AI writing tells." width="1983" height="793">
+  </div>
+</header>
+
+<div class="wrap">
+
+  <section>
+    <p class="lead">Make Claude Code answer short and plain. Laconic is an output style shipped as a plugin: no walls of text, no made-up jargon, no 400-word recap of a 10-second fix.</p>
+    <div class="copy-row">
+      <pre id="install"><span class="cmd">/plugin marketplace add</span> spenhouet/claude-laconic
+<span class="cmd">/plugin install</span> laconic@claude-laconic</pre>
+      <button class="copy" data-target="install">Copy</button>
+    </div>
+    <div class="cta">
+      <a class="btn" href="https://github.com/spenhouet/claude-laconic">View on GitHub</a>
+      <a class="btn ghost" href="https://github.com/spenhouet/claude-laconic/blob/main/output-styles/Laconic.md">Read the style</a>
+    </div>
+  </section>
+
+  <section>
+    <h2>The problem</h2>
+    <p>Claude Code is a strong engineer and an exhausting narrator. Ask a simple question and you get a wall of text too long to read. Let it work for an hour and it reports back in invented vocabulary, compressing concepts into words that sound like standard engineering English but are not.</p>
+    <blockquote class="jargon">I smoke-verified the config-guarded &ldquo;one authority per tibble&rdquo; materialization core (clean), but the metadata-bearing patches (no-op) are spec-shaped, and that&rsquo;s a call that&rsquo;s genuinely yours.</blockquote>
+    <p>That is a real complaint, and not an isolated one.</p>
+    <div class="tweets">
+      <a href="https://x.com/riccoja/status/2079926205491429829"><img src="img/tweet-riccoja.png" alt="Tweet by @riccoja quoting a wall of text from Claude full of invented terms" width="1000" height="1191"></a>
+      <a href="https://x.com/lele_venturi/status/2079908144637980995"><img src="img/tweet-lele-venturi.png" alt="Tweet by @lele_venturi asking whether you can survive a four-hour conversation without an LLM inventing its own language" width="1000" height="1039"></a>
+    </div>
+  </section>
+
+  <section>
+    <h2>Before and after</h2>
+    <p>Laconic changes how Claude talks to you, not how it works. Investigation and verification stay thorough. The report shrinks to what you need.</p>
+    <div class="compare">
+      <div class="card">
+        <p class="tag">Default</p>
+        <p>I&rsquo;ve completed a comprehensive verification pass across the authentication middleware surface. The token-expiry comparison semantics were subtly misaligned (a boundary-inclusive check where an exclusive one was intended), which I&rsquo;ve now remediated. I also validated the adjacent session-refresh pathway to ensure no analogous boundary conditions exist elsewhere in the codebase. All 47 tests pass, which gives us strong confidence in the overall integrity of the authentication flow going forward&hellip;</p>
+        <p class="wordcount">78 words</p>
+      </div>
+      <div class="card after">
+        <p class="tag">Laconic</p>
+        <p>The token expiry check in the auth middleware used <code>&lt;</code> instead of <code>&lt;=</code>. Fixed in <code>src/auth.ts:42</code>, all 47 tests pass. Session refresh has no such bug, I checked.</p>
+        <p class="wordcount">30 words</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>The rules</h2>
+    <ul class="rules">
+      <li>Lead with the answer or the next action. Context only if it changes a decision.</li>
+      <li>Hard length budget. Simple answers in 1 to 3 sentences, work reports under 150 words, one screen as the ceiling.</li>
+      <li>Plain words. No invented terms, no dense abstract phrasing, no &ldquo;delve&rdquo;, &ldquo;robust&rdquo;, or &ldquo;seamless&rdquo;, and no em dashes. Write the way people talk.</li>
+      <li>Length scales with the decision you must make, not the work done. Hours of agent work can be a five-line report.</li>
+      <li>Time estimates assume the agent does the work. Minutes, not hours.</li>
+      <li>Text written on your behalf (issues, pull requests, commits, emails) reads as written by you, not by an AI.</li>
+      <li>Code, quoted errors, and safety warnings stay unstylized.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Install</h2>
+    <p>Run both commands in Claude Code. The style applies automatically once the plugin is enabled, so there is nothing to pick in the settings.</p>
+    <div class="copy-row">
+      <pre id="install2"><span class="cmd">/plugin marketplace add</span> spenhouet/claude-laconic
+<span class="cmd">/plugin install</span> laconic@claude-laconic</pre>
+      <button class="copy" data-target="install2">Copy</button>
+    </div>
+    <h3 style="margin-top:28px">Uninstall</h3>
+    <div class="copy-row">
+      <pre id="uninstall"><span class="cmd">/plugin uninstall</span> laconic@claude-laconic</pre>
+      <button class="copy" data-target="uninstall">Copy</button>
+    </div>
+  </section>
+
+</div>
+
+<footer>
+  <div class="wrap">
+    <p><a href="https://github.com/spenhouet/claude-laconic">github.com/spenhouet/claude-laconic</a>, MIT licensed.</p>
+    <p>The actionability rules took inspiration from <a href="https://github.com/ayghri/i-have-adhd">i-have-adhd</a>.</p>
+  </div>
+</footer>
+
+<script>
+  document.querySelectorAll("button.copy").forEach(function (btn) {
+    btn.addEventListener("click", function () {
+      var text = document.getElementById(btn.dataset.target).innerText;
+      navigator.clipboard.writeText(text).then(function () {
+        btn.textContent = "Copied";
+        setTimeout(function () { btn.textContent = "Copy"; }, 1600);
+      });
+    });
+  });
+</script>
+
+</body>
+</html>
