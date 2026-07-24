@@ -20,7 +20,7 @@ It changes how Claude talks to you, not how it works. Investigation and verifica
 
 **After:**
 
-> Bug in auth middleware: token expiry check used `<` instead of `<=`. Fixed in `src/auth.ts:42`, all 47 tests pass. Session refresh has no such bug, I checked.
+> The token expiry check in the auth middleware used `<` instead of `<=`. Fixed in `src/auth.ts:42`, all 47 tests pass. Session refresh has no such bug, I checked.
 
 The rules behind that:
 
