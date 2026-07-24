@@ -4,7 +4,7 @@
 
 Make Claude Code answer short and plain. This plugin ships the **Laconic** output style: no walls of text, no made-up jargon, no 400-word recap of a 10-second fix.
 
-Site: [spenhouet.github.io/claude-laconic](https://spenhouet.github.io/claude-laconic)
+Site: [spenhouet.com/claude-laconic](https://spenhouet.com/claude-laconic)
 
 ## The problem
 
