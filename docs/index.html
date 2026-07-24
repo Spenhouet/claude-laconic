@@ -116,9 +116,11 @@
     color: var(--ink);
   }
 
-  .tweets { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 8px; }
-  .tweets a { display: block; border-radius: 14px; overflow: hidden; border: 1px solid var(--line); background: var(--panel); }
-  .tweets a:hover { border-color: var(--accent); }
+  .tweets { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; margin-top: 8px; align-items: start; }
+  .tweets figure { margin: 0; }
+  .tweets figure > a { display: block; border-radius: 14px; overflow: hidden; border: 1px solid var(--line); background: var(--panel); }
+  .tweets figure > a:hover { border-color: var(--accent); }
+  .tweets figcaption { margin-top: 10px; font-family: var(--mono); font-size: 13px; color: var(--ink-soft); }
 
   .compare { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
   .card { background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 20px 22px; }
@@ -180,10 +182,21 @@
     <h2>The problem</h2>
     <p>Claude Code is a strong engineer and an exhausting narrator. Ask a simple question and you get a wall of text too long to read. Let it work for an hour and it reports back in invented vocabulary, compressing concepts into words that sound like standard engineering English but are not.</p>
     <blockquote class="jargon">I smoke-verified the config-guarded &ldquo;one authority per tibble&rdquo; materialization core (clean), but the metadata-bearing patches (no-op) are spec-shaped, and that&rsquo;s a call that&rsquo;s genuinely yours.</blockquote>
-    <p>That is a real complaint, and not an isolated one.</p>
+    <p>The model invents neologisms, references them as if you know them, and buries the one thing you need to decide under ten paragraphs of narration. Reading the report takes longer than the fix did.</p>
+  </section>
+
+  <section>
+    <h2>The problem, in their words</h2>
+    <p>That quote is real, and the complaint is not an isolated one.</p>
     <div class="tweets">
-      <a href="https://x.com/riccoja/status/2079926205491429829"><img src="img/tweet-riccoja.png" alt="Tweet by @riccoja quoting a wall of text from Claude full of invented terms" width="1000" height="1191"></a>
-      <a href="https://x.com/lele_venturi/status/2079908144637980995"><img src="img/tweet-lele-venturi.png" alt="Tweet by @lele_venturi asking whether you can survive a four-hour conversation without an LLM inventing its own language" width="1000" height="1039"></a>
+      <figure>
+        <a href="https://x.com/riccoja/status/2079926205491429829"><img src="img/tweet-riccoja.png" alt="Tweet by @riccoja quoting a wall of text from Claude full of invented terms" width="1000" height="1191"></a>
+        <figcaption><a href="https://x.com/riccoja/status/2079926205491429829">@riccoja, 22 Jul 2026</a></figcaption>
+      </figure>
+      <figure>
+        <a href="https://x.com/lele_venturi/status/2079908144637980995"><img src="img/tweet-lele-venturi.png" alt="Tweet by @lele_venturi asking whether you can survive a four-hour conversation without an LLM inventing its own language" width="1000" height="1039"></a>
+        <figcaption><a href="https://x.com/lele_venturi/status/2079908144637980995">@lele_venturi, 22 Jul 2026</a></figcaption>
+      </figure>
     </div>
   </section>
 

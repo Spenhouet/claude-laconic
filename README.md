@@ -12,15 +12,33 @@ Claude Code is a strong engineer and an exhausting narrator. Ask a simple questi
 
 > I smoke-verified the config-guarded "one authority per tibble" materialization core (clean), but the metadata-bearing patches (no-op) are spec-shaped, and that's a call that's genuinely yours.
 
-That is a real complaint, and not an isolated one.
+The model invents neologisms, references them as if you know them, and buries the one thing you need to decide under ten paragraphs of narration. Reading the report takes longer than the fix did.
 
+<details>
+<summary><b>The problem, in their words</b> (two screenshots)</summary>
+<br>
 <p align="center">
-  <a href="https://x.com/riccoja/status/2079926205491429829"><img src="docs/img/tweet-riccoja.png" alt="Tweet by @riccoja quoting a wall of text from Claude" width="46%"></a>
+  <a href="https://x.com/riccoja/status/2079926205491429829"><img src="docs/img/tweet-riccoja.png" alt="Tweet by @riccoja quoting a wall of text from Claude full of invented terms" width="46%"></a>
   &nbsp;
   <a href="https://x.com/lele_venturi/status/2079908144637980995"><img src="docs/img/tweet-lele-venturi.png" alt="Tweet by @lele_venturi about LLMs inventing their own language" width="46%"></a>
 </p>
 
-The model invents neologisms, references them as if you know them, and buries the one thing you need to decide under ten paragraphs of narration. Reading the report takes longer than the fix did.
+Sources: [@riccoja, 22 Jul 2026](https://x.com/riccoja/status/2079926205491429829) and [@lele_venturi, 22 Jul 2026](https://x.com/lele_venturi/status/2079908144637980995).
+
+</details>
+
+## Install
+
+```
+/plugin marketplace add spenhouet/claude-laconic
+/plugin install laconic@claude-laconic
+```
+
+The style applies automatically once the plugin is enabled, so there is nothing to pick in the settings. To remove it:
+
+```
+/plugin uninstall laconic@claude-laconic
+```
 
 ## What Laconic does
 
@@ -37,27 +55,12 @@ It changes how Claude talks to you, not how it works. Investigation and verifica
 The rules behind that:
 
 - Lead with the answer or the next action. Context only if it changes a decision.
-- Hard length budget: simple answers in 1 to 3 sentences, work reports under 150 words, one screen as the ceiling.
+- Hard length budget. Simple answers in 1 to 3 sentences, work reports under 150 words, one screen as the ceiling.
 - Plain words. No invented terms, no dense abstract phrasing, no "delve", "robust", "seamless", no em dashes. Write the way people talk.
 - Length scales with the decision you must make, not the work done. Hours of agent work can be a five-line report.
 - Time estimates assume the agent does the work. Minutes, not hours.
 - Text written on your behalf (issues, PRs, commits, emails) reads as written by you, not by an AI.
 - Code, quoted errors, and safety warnings stay unstylized.
-
-The style applies automatically once the plugin is enabled (`force-for-plugin: true`).
-
-## Install
-
-```
-/plugin marketplace add spenhouet/claude-laconic
-/plugin install laconic@claude-laconic
-```
-
-## Uninstall
-
-```
-/plugin uninstall laconic@claude-laconic
-```
 
 ## Credits
 
