@@ -37,84 +37,77 @@
     -webkit-font-smoothing: antialiased;
   }
   .wrap { max-width: 980px; margin: 0 auto; padding: 0 20px; }
-  img { max-width: 100%; height: auto; display: block; }
+  img, svg { max-width: 100%; height: auto; display: block; }
   a { color: var(--ink); text-decoration-color: var(--accent); text-underline-offset: 3px; }
   a:hover { color: var(--accent); }
 
-  header { padding: 40px 0 8px; }
-  header img { margin: 0 auto; }
-
-  section { padding: 44px 0; border-top: 1px solid var(--line); }
-  section:first-of-type { border-top: 0; }
-  h2 {
-    font-family: var(--serif);
-    font-size: 30px;
-    line-height: 1.2;
-    margin: 0 0 16px;
-    font-weight: 600;
+  /* hero */
+  .hero { padding: 56px 0 8px; overflow: hidden; }
+  .hero-grid { display: grid; grid-template-columns: 1.15fr 0.85fr; gap: 28px 32px; align-items: center; }
+  .brand { display: flex; align-items: center; gap: 20px; }
+  .mark { width: 62px; height: 62px; flex: none; border-radius: 16px; background: var(--ink); position: relative; }
+  .mark::before, .mark::after {
+    content: ""; position: absolute; left: 14px; right: 14px; height: 6px;
+    background: var(--bg); border-radius: 1px;
   }
-  h3 {
-    font-size: 12px;
-    letter-spacing: 0.14em;
+  .mark::before { top: 21px; }
+  .mark::after { bottom: 21px; }
+  h1 {
+    font-family: var(--serif);
+    font-size: clamp(48px, 8vw, 86px);
+    line-height: 0.95;
+    letter-spacing: -0.015em;
+    font-weight: 600;
+    margin: 0;
+  }
+  .tagline {
+    font-size: clamp(12px, 1.8vw, 16px);
+    letter-spacing: 0.2em;
     text-transform: uppercase;
     color: var(--accent);
-    margin: 0 0 10px;
+    font-weight: 700;
+    margin: 16px 0 16px 82px;
   }
+  .hero-desc { font-size: 19px; line-height: 1.5; max-width: 46ch; margin: 0; }
+  .pillars { grid-column: 1 / -1; list-style: none; display: flex; flex-wrap: wrap; padding: 0; margin: 8px 0 0; }
+  .pillars li { display: flex; gap: 11px; padding: 0 26px; border-left: 1px solid var(--line); }
+  .pillars li:first-child { padding-left: 0; border-left: 0; }
+  .pillars svg { width: 21px; height: 21px; flex: none; margin-top: 3px; }
+  .pillars b { display: block; font-size: 12px; letter-spacing: 0.13em; text-transform: uppercase; }
+  .pillars span { font-size: 14px; color: var(--ink-soft); }
+  .hero-art { justify-self: end; width: 100%; max-width: 420px; }
+
+  /* sections */
+  section { padding: 44px 0; border-top: 1px solid var(--line); }
+  h2 { font-family: var(--serif); font-size: 30px; line-height: 1.2; margin: 0 0 16px; font-weight: 600; }
+  h3 { font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent); margin: 28px 0 10px; }
   p { margin: 0 0 16px; max-width: 68ch; }
   .lead { font-size: 20px; line-height: 1.5; }
 
   .cta { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; margin-top: 24px; }
   .btn {
-    display: inline-block;
-    padding: 11px 20px;
-    border-radius: 999px;
-    background: var(--ink);
-    color: var(--bg);
-    text-decoration: none;
-    font-weight: 600;
-    font-size: 15px;
+    display: inline-block; padding: 11px 20px; border-radius: 999px;
+    background: var(--ink); color: var(--bg); text-decoration: none;
+    font-weight: 600; font-size: 15px;
   }
   .btn:hover { background: var(--accent); color: #fff; }
   .btn.ghost { background: transparent; color: var(--ink); border: 1px solid var(--ink); }
   .btn.ghost:hover { background: var(--ink); color: var(--bg); }
 
   pre {
-    background: var(--ink);
-    color: #f2ece4;
-    font-family: var(--mono);
-    font-size: 14.5px;
-    line-height: 1.7;
-    padding: 18px 20px;
-    border-radius: 12px;
-    overflow-x: auto;
-    margin: 0;
+    background: var(--ink); color: #f2ece4; font-family: var(--mono);
+    font-size: 14.5px; line-height: 1.7; padding: 18px 20px;
+    border-radius: 12px; overflow-x: auto; margin: 0;
   }
   pre .cmd { color: #e8b98d; }
   .copy-row { display: flex; align-items: flex-start; gap: 10px; }
-  .copy-row pre { flex: 1; }
+  .copy-row pre { flex: 1; min-width: 0; }
   button.copy {
-    font-family: var(--sans);
-    font-size: 13px;
-    padding: 9px 14px;
-    border: 1px solid var(--line);
-    background: var(--panel);
-    color: var(--ink-soft);
-    border-radius: 8px;
-    cursor: pointer;
+    font-family: var(--sans); font-size: 13px; padding: 9px 14px;
+    border: 1px solid var(--line); background: var(--panel); color: var(--ink-soft);
+    border-radius: 8px; cursor: pointer;
   }
   button.copy:hover { border-color: var(--accent); color: var(--ink); }
-
-  blockquote.jargon {
-    font-family: var(--serif);
-    font-size: 22px;
-    line-height: 1.45;
-    margin: 0 0 24px;
-    padding: 22px 26px;
-    background: var(--panel);
-    border-left: 3px solid var(--accent);
-    border-radius: 0 12px 12px 0;
-    color: var(--ink);
-  }
 
   .tweets { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; margin-top: 8px; align-items: start; }
   .tweets figure { margin: 0; }
@@ -125,7 +118,7 @@
   .compare { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
   .card { background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 20px 22px; }
   .card.after { border-color: var(--accent); }
-  .card p { font-size: 15.5px; margin: 0; color: var(--ink-soft); }
+  .card p { font-size: 15.5px; margin: 0; color: var(--ink-soft); max-width: none; }
   .card.after p { color: var(--ink); }
   .card code { font-family: var(--mono); font-size: 14px; background: #efe8df; padding: 1px 5px; border-radius: 4px; }
   .tag { font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; margin: 0 0 10px; color: var(--ink-soft); }
@@ -135,31 +128,91 @@
   ul.rules { list-style: none; padding: 0; margin: 0; max-width: 76ch; }
   ul.rules li { padding: 12px 0 12px 28px; border-bottom: 1px solid var(--line); position: relative; }
   ul.rules li:last-child { border-bottom: 0; }
-  ul.rules li::before {
-    content: "";
-    position: absolute;
-    left: 0; top: 22px;
-    width: 14px; height: 2px;
-    background: var(--accent);
-  }
+  ul.rules li::before { content: ""; position: absolute; left: 0; top: 22px; width: 14px; height: 2px; background: var(--accent); }
 
   footer { border-top: 1px solid var(--line); padding: 28px 0 48px; font-size: 15px; color: var(--ink-soft); }
   footer p { margin: 0 0 6px; }
 
-  @media (max-width: 760px) {
+  @media (max-width: 820px) {
     body { font-size: 16px; }
+    .hero { padding-top: 36px; }
+    .hero-grid { grid-template-columns: 1fr; gap: 24px; }
+    .hero-art { justify-self: center; max-width: 320px; order: -1; }
+    .tagline { margin-left: 0; }
     h2 { font-size: 25px; }
     .lead { font-size: 18px; }
+    .pillars { gap: 14px 0; }
+    .pillars li { flex: 1 1 45%; padding: 0; border-left: 0; }
     .tweets, .compare { grid-template-columns: 1fr; }
-    blockquote.jargon { font-size: 19px; padding: 18px 20px; }
   }
 </style>
 </head>
 <body>
 
-<header>
-  <div class="wrap">
-    <img src="img/banner.png" alt="Laconic. Less words. More signal. Claude Code plugin for short, clear, plain-language output with hard length budgets and no AI writing tells." width="1983" height="793">
+<header class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <div class="brand">
+        <span class="mark" aria-hidden="true"></span>
+        <h1>Laconic</h1>
+      </div>
+      <p class="tagline">Less words. More signal.</p>
+      <p class="hero-desc">Claude Code plugin for short, clear, plain-language output with hard length budgets and no AI writing tells.</p>
+    </div>
+    <div class="hero-art" aria-hidden="true">
+      <svg viewBox="0 0 600 560" role="presentation">
+        <defs>
+          <radialGradient id="sun" cx="50%" cy="44%" r="53%">
+            <stop offset="0%" stop-color="#f0c8a1" stop-opacity=".95"/>
+            <stop offset="58%" stop-color="#f6dcc5" stop-opacity=".8"/>
+            <stop offset="100%" stop-color="#f9e8d8" stop-opacity="0"/>
+          </radialGradient>
+          <linearGradient id="fade" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0" stop-color="#c08a5e" stop-opacity="0"/>
+            <stop offset=".16" stop-color="#c08a5e" stop-opacity=".95"/>
+            <stop offset=".84" stop-color="#c08a5e" stop-opacity=".95"/>
+            <stop offset="1" stop-color="#c08a5e" stop-opacity="0"/>
+          </linearGradient>
+        </defs>
+        <circle cx="300" cy="220" r="172" fill="url(#sun)"/>
+        <rect x="222" y="192" width="156" height="19" rx="1.5" fill="#17171a"/>
+        <rect x="222" y="231" width="156" height="19" rx="1.5" fill="#17171a"/>
+        <g fill="url(#fade)">
+          <rect x="20" y="326" width="560" height="2.4" opacity=".92"/>
+          <rect x="20" y="342" width="560" height="2.2" opacity=".82"/>
+          <rect x="20" y="359" width="560" height="2" opacity=".71"/>
+          <rect x="20" y="377" width="560" height="2" opacity=".61"/>
+          <rect x="20" y="396" width="560" height="1.8" opacity=".52"/>
+          <rect x="20" y="416" width="560" height="1.8" opacity=".43"/>
+          <rect x="20" y="437" width="560" height="1.6" opacity=".34"/>
+          <rect x="20" y="459" width="560" height="1.6" opacity=".26"/>
+          <rect x="20" y="482" width="560" height="1.5" opacity=".15"/>
+          <rect x="20" y="506" width="560" height="1.5" opacity=".1"/>
+          <rect x="20" y="531" width="560" height="1.4" opacity=".06"/>
+        </g>
+      </svg>
+    </div>
+    <ul class="pillars">
+      <li>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true">
+          <path d="M3 9h18M3 15h18"/>
+        </svg>
+        <div><b>Brief</b><span>Say what matters.</span></div>
+      </li>
+      <li>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+          <circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="2.2" fill="currentColor" stroke="none"/>
+          <path d="M12 1.5v4M12 18.5v4M1.5 12h4M18.5 12h4"/>
+        </svg>
+        <div><b>Clear</b><span>Easy to understand.</span></div>
+      </li>
+      <li>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+          <circle cx="12" cy="12" r="9"/><path d="M7.5 12.4l3.1 3.1 5.9-6.5"/>
+        </svg>
+        <div><b>Practical</b><span>Built for real work.</span></div>
+      </li>
+    </ul>
   </div>
 </header>
 
@@ -180,21 +233,19 @@
 
   <section>
     <h2>The problem</h2>
-    <p>Claude Code is a strong engineer and an exhausting narrator. Ask a simple question and you get a wall of text too long to read. Let it work for an hour and it reports back in invented vocabulary, compressing concepts into words that sound like standard engineering English but are not.</p>
-    <blockquote class="jargon">I smoke-verified the config-guarded &ldquo;one authority per tibble&rdquo; materialization core (clean), but the metadata-bearing patches (no-op) are spec-shaped, and that&rsquo;s a call that&rsquo;s genuinely yours.</blockquote>
-    <p>The model invents neologisms, references them as if you know them, and buries the one thing you need to decide under ten paragraphs of narration. Reading the report takes longer than the fix did.</p>
+    <p>Claude Code is a strong engineer and an exhausting narrator. Ask a simple question and you get a wall of text too long to read. Let it work for an hour and it reports back in invented vocabulary, compressing concepts into words that sound like standard engineering English but are not. It buries the one thing you need to decide under ten paragraphs of narration, and reading the report takes longer than the fix did.</p>
   </section>
 
   <section>
     <h2>The problem, in their words</h2>
-    <p>That quote is real, and the complaint is not an isolated one.</p>
+    <p>Not my claim. Theirs.</p>
     <div class="tweets">
       <figure>
-        <a href="https://x.com/riccoja/status/2079926205491429829"><img src="img/tweet-riccoja.png" alt="Tweet by @riccoja quoting a wall of text from Claude full of invented terms" width="1000" height="1191"></a>
+        <a href="https://x.com/riccoja/status/2079926205491429829"><img src="img/tweets/tweet-riccoja.png" alt="Tweet by @riccoja quoting a wall of text from Claude full of invented terms" width="1000" height="1191"></a>
         <figcaption><a href="https://x.com/riccoja/status/2079926205491429829">@riccoja, 22 Jul 2026</a></figcaption>
       </figure>
       <figure>
-        <a href="https://x.com/lele_venturi/status/2079908144637980995"><img src="img/tweet-lele-venturi.png" alt="Tweet by @lele_venturi asking whether you can survive a four-hour conversation without an LLM inventing its own language" width="1000" height="1039"></a>
+        <a href="https://x.com/lele_venturi/status/2079908144637980995"><img src="img/tweets/tweet-lele-venturi.png" alt="Tweet by @lele_venturi asking whether you can survive a four-hour conversation without an LLM inventing its own language" width="1000" height="1039"></a>
         <figcaption><a href="https://x.com/lele_venturi/status/2079908144637980995">@lele_venturi, 22 Jul 2026</a></figcaption>
       </figure>
     </div>
@@ -238,7 +289,7 @@
 <span class="cmd">/plugin install</span> laconic@claude-laconic</pre>
       <button class="copy" data-target="install2">Copy</button>
     </div>
-    <h3 style="margin-top:28px">Uninstall</h3>
+    <h3>Uninstall</h3>
     <div class="copy-row">
       <pre id="uninstall"><span class="cmd">/plugin uninstall</span> laconic@claude-laconic</pre>
       <button class="copy" data-target="uninstall">Copy</button>

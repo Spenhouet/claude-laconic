@@ -8,19 +8,15 @@ Site: [spenhouet.com/claude-laconic](https://spenhouet.com/claude-laconic)
 
 ## The problem
 
-Claude Code is a strong engineer and an exhausting narrator. Ask a simple question and you get a wall of text too long to read. Let it work for an hour and it reports back in invented vocabulary, compressing concepts into words that sound like standard engineering English but are not:
-
-> I smoke-verified the config-guarded "one authority per tibble" materialization core (clean), but the metadata-bearing patches (no-op) are spec-shaped, and that's a call that's genuinely yours.
-
-The model invents neologisms, references them as if you know them, and buries the one thing you need to decide under ten paragraphs of narration. Reading the report takes longer than the fix did.
+Claude Code is a strong engineer and an exhausting narrator. Ask a simple question and you get a wall of text too long to read. Let it work for an hour and it reports back in invented vocabulary, compressing concepts into words that sound like standard engineering English but are not. It buries the one thing you need to decide under ten paragraphs of narration, and reading the report takes longer than the fix did.
 
 <details>
 <summary><b>The problem, in their words</b> (two screenshots)</summary>
 <br>
 <p align="center">
-  <a href="https://x.com/riccoja/status/2079926205491429829"><img src="docs/img/tweet-riccoja.png" alt="Tweet by @riccoja quoting a wall of text from Claude full of invented terms" width="46%"></a>
+  <a href="https://x.com/riccoja/status/2079926205491429829"><img src="docs/img/tweets/tweet-riccoja.png" alt="Tweet by @riccoja quoting a wall of text from Claude full of invented terms" width="46%"></a>
   &nbsp;
-  <a href="https://x.com/lele_venturi/status/2079908144637980995"><img src="docs/img/tweet-lele-venturi.png" alt="Tweet by @lele_venturi about LLMs inventing their own language" width="46%"></a>
+  <a href="https://x.com/lele_venturi/status/2079908144637980995"><img src="docs/img/tweets/tweet-lele-venturi.png" alt="Tweet by @lele_venturi about LLMs inventing their own language" width="46%"></a>
 </p>
 
 Sources: [@riccoja, 22 Jul 2026](https://x.com/riccoja/status/2079926205491429829) and [@lele_venturi, 22 Jul 2026](https://x.com/lele_venturi/status/2079908144637980995).
