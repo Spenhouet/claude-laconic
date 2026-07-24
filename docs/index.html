@@ -77,6 +77,40 @@
   .pillars span { font-size: 14px; color: var(--ink-soft); }
   .hero-art { justify-self: end; width: 100%; max-width: 420px; }
 
+  /* the sun rises once, then its reflection keeps moving */
+  .rise { animation: rise 1.5s cubic-bezier(.16, 1, .3, 1) both; }
+  .disc { transform-box: fill-box; transform-origin: center; animation: breathe 9s 1.5s ease-in-out infinite; }
+  .mark-bars rect { transform-box: fill-box; transform-origin: left center; animation: unfurl .8s cubic-bezier(.16, 1, .3, 1) both; }
+  .mark-bars rect:first-child { animation-delay: .45s; }
+  .mark-bars rect:last-child { animation-delay: .58s; }
+  .lines { animation: fade-in 1.2s .6s both; }
+  .lines rect {
+    opacity: calc(var(--o) * .72);
+    animation: shimmer 5.5s ease-in-out infinite;
+    animation-delay: calc(var(--i) * -.42s);
+  }
+  @keyframes rise {
+    from { opacity: 0; transform: translateY(26px); }
+    to { opacity: 1; transform: none; }
+  }
+  @keyframes breathe {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.035); }
+  }
+  @keyframes unfurl {
+    from { transform: scaleX(0); }
+    to { transform: none; }
+  }
+  @keyframes fade-in { from { opacity: 0; } to { opacity: 1; } }
+  @keyframes shimmer {
+    0%, 100% { opacity: calc(var(--o) * .55); }
+    50% { opacity: var(--o); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .rise, .disc, .mark-bars rect, .lines, .lines rect { animation: none; }
+    .lines rect { opacity: var(--o); }
+  }
+
   /* sections */
   section { padding: 44px 0; border-top: 1px solid var(--line); }
   h2 { font-family: var(--serif); font-size: 30px; line-height: 1.2; margin: 0 0 16px; font-weight: 600; }
@@ -174,21 +208,25 @@
             <stop offset="1" stop-color="#c08a5e" stop-opacity="0"/>
           </linearGradient>
         </defs>
-        <circle cx="300" cy="220" r="172" fill="url(#sun)"/>
-        <rect x="222" y="192" width="156" height="19" rx="1.5" fill="#17171a"/>
-        <rect x="222" y="231" width="156" height="19" rx="1.5" fill="#17171a"/>
-        <g fill="url(#fade)">
-          <rect x="20" y="326" width="560" height="2.4" opacity=".92"/>
-          <rect x="20" y="342" width="560" height="2.2" opacity=".82"/>
-          <rect x="20" y="359" width="560" height="2" opacity=".71"/>
-          <rect x="20" y="377" width="560" height="2" opacity=".61"/>
-          <rect x="20" y="396" width="560" height="1.8" opacity=".52"/>
-          <rect x="20" y="416" width="560" height="1.8" opacity=".43"/>
-          <rect x="20" y="437" width="560" height="1.6" opacity=".34"/>
-          <rect x="20" y="459" width="560" height="1.6" opacity=".26"/>
-          <rect x="20" y="482" width="560" height="1.5" opacity=".15"/>
-          <rect x="20" y="506" width="560" height="1.5" opacity=".1"/>
-          <rect x="20" y="531" width="560" height="1.4" opacity=".06"/>
+        <g class="rise">
+          <circle class="disc" cx="300" cy="220" r="172" fill="url(#sun)"/>
+          <g class="mark-bars" fill="#17171a">
+            <rect x="222" y="192" width="156" height="19" rx="1.5"/>
+            <rect x="222" y="231" width="156" height="19" rx="1.5"/>
+          </g>
+        </g>
+        <g class="lines" fill="url(#fade)">
+          <rect x="20" y="326" width="560" height="2.4" style="--o:.92;--i:0"/>
+          <rect x="20" y="342" width="560" height="2.2" style="--o:.82;--i:1"/>
+          <rect x="20" y="359" width="560" height="2" style="--o:.71;--i:2"/>
+          <rect x="20" y="377" width="560" height="2" style="--o:.61;--i:3"/>
+          <rect x="20" y="396" width="560" height="1.8" style="--o:.52;--i:4"/>
+          <rect x="20" y="416" width="560" height="1.8" style="--o:.43;--i:5"/>
+          <rect x="20" y="437" width="560" height="1.6" style="--o:.34;--i:6"/>
+          <rect x="20" y="459" width="560" height="1.6" style="--o:.26;--i:7"/>
+          <rect x="20" y="482" width="560" height="1.5" style="--o:.15;--i:8"/>
+          <rect x="20" y="506" width="560" height="1.5" style="--o:.1;--i:9"/>
+          <rect x="20" y="531" width="560" height="1.4" style="--o:.06;--i:10"/>
         </g>
       </svg>
     </div>
