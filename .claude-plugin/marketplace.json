@@ -8,7 +8,7 @@
     {
       "name": "laconic",
       "source": "./",
-      "description": "Blunt, pragmatic output style with a hard length budget and no AI writing tells."
+      "description": "Claude says less, in words you know. Short answers in plain language, on any task."
     }
   ]
 }
