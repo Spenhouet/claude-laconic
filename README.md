@@ -25,8 +25,13 @@ Sources: [@riccoja, 22 Jul 2026](https://x.com/riccoja/status/207992620549142982
 
 ## Install
 
+Two separate prompts in Claude Code. Send the first, then the second:
+
 ```
 /plugin marketplace add spenhouet/claude-laconic
+```
+
+```
 /plugin install laconic@claude-laconic
 ```
 

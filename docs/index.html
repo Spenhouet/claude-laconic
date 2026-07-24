@@ -106,9 +106,22 @@
     0%, 100% { opacity: calc(var(--o) * .55); }
     50% { opacity: var(--o); }
   }
+  /* hover: the wall of text collapses into the two bars */
+  @media (hover: hover) {
+    .hero-art { cursor: default; }
+    .lift, .lines rect { transition: transform .9s cubic-bezier(.16, 1, .3, 1); }
+    .disc { transition: filter .5s ease; }
+    .hero-art:hover .lines rect { transform: translateY(var(--ty)) scaleX(.9) scaleY(2.4); }
+    .hero-art:hover .lift { transform: translateY(-12px); }
+    .hero-art:hover .disc { filter: saturate(1.2) brightness(1.04); }
+  }
+  .lines rect { transform-box: fill-box; transform-origin: center; }
+
   @media (prefers-reduced-motion: reduce) {
     .rise, .disc, .mark-bars rect, .lines, .lines rect { animation: none; }
     .lines rect { opacity: var(--o); }
+    .lift, .lines rect, .disc { transition: none; }
+    .hero-art:hover .lines rect, .hero-art:hover .lift { transform: none; }
   }
 
   /* sections */
@@ -128,20 +141,26 @@
   .btn.ghost { background: transparent; color: var(--ink); border: 1px solid var(--ink); }
   .btn.ghost:hover { background: var(--ink); color: var(--bg); }
 
-  pre {
-    background: var(--ink); color: #f2ece4; font-family: var(--mono);
-    font-size: 14.5px; line-height: 1.7; padding: 18px 20px;
-    border-radius: 12px; overflow-x: auto; margin: 0;
+  .cmds { display: flex; flex-direction: column; gap: 10px; max-width: 640px; }
+  .cmd-row {
+    display: flex; align-items: center; gap: 12px;
+    background: var(--ink); border-radius: 10px; padding: 11px 11px 11px 16px;
   }
-  pre .cmd { color: #e8b98d; }
-  .copy-row { display: flex; align-items: flex-start; gap: 10px; }
-  .copy-row pre { flex: 1; min-width: 0; }
+  .cmd-row .step {
+    font-family: var(--mono); font-size: 12px; color: #8d8578; flex: none;
+  }
+  .cmd-row code {
+    flex: 1; min-width: 0; overflow-x: auto; white-space: nowrap;
+    font-family: var(--mono); font-size: 14.5px; color: #f2ece4;
+  }
+  .cmd-row code b { color: #e8b98d; font-weight: 400; }
   button.copy {
-    font-family: var(--sans); font-size: 13px; padding: 9px 14px;
-    border: 1px solid var(--line); background: var(--panel); color: var(--ink-soft);
-    border-radius: 8px; cursor: pointer;
+    flex: none; font-family: var(--sans); font-size: 12.5px; padding: 6px 12px;
+    border: 1px solid rgba(242, 236, 228, .28); background: transparent; color: #e8b98d;
+    border-radius: 7px; cursor: pointer;
   }
-  button.copy:hover { border-color: var(--accent); color: var(--ink); }
+  button.copy:hover { border-color: #e8b98d; background: rgba(232, 185, 141, .12); }
+  .cmd-note { font-size: 14.5px; color: var(--ink-soft); margin: 12px 0 0; }
 
   .tweets { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; margin-top: 8px; align-items: start; }
   .tweets figure { margin: 0; }
@@ -209,24 +228,26 @@
           </linearGradient>
         </defs>
         <g class="rise">
-          <circle class="disc" cx="300" cy="220" r="172" fill="url(#sun)"/>
-          <g class="mark-bars" fill="#17171a">
-            <rect x="222" y="192" width="156" height="19" rx="1.5"/>
-            <rect x="222" y="231" width="156" height="19" rx="1.5"/>
+          <g class="lift">
+            <circle class="disc" cx="300" cy="220" r="172" fill="url(#sun)"/>
+            <g class="mark-bars" fill="#17171a">
+              <rect x="222" y="192" width="156" height="19" rx="1.5"/>
+              <rect x="222" y="231" width="156" height="19" rx="1.5"/>
+            </g>
           </g>
         </g>
         <g class="lines" fill="url(#fade)">
-          <rect x="20" y="326" width="560" height="2.4" style="--o:.92;--i:0"/>
-          <rect x="20" y="342" width="560" height="2.2" style="--o:.82;--i:1"/>
-          <rect x="20" y="359" width="560" height="2" style="--o:.71;--i:2"/>
-          <rect x="20" y="377" width="560" height="2" style="--o:.61;--i:3"/>
-          <rect x="20" y="396" width="560" height="1.8" style="--o:.52;--i:4"/>
-          <rect x="20" y="416" width="560" height="1.8" style="--o:.43;--i:5"/>
-          <rect x="20" y="437" width="560" height="1.6" style="--o:.34;--i:6"/>
-          <rect x="20" y="459" width="560" height="1.6" style="--o:.26;--i:7"/>
-          <rect x="20" y="482" width="560" height="1.5" style="--o:.15;--i:8"/>
-          <rect x="20" y="506" width="560" height="1.5" style="--o:.1;--i:9"/>
-          <rect x="20" y="531" width="560" height="1.4" style="--o:.06;--i:10"/>
+          <rect x="20" y="326" width="560" height="2.4" style="--o:.92;--i:0;--ty:0px"/>
+          <rect x="20" y="342" width="560" height="2.2" style="--o:.82;--i:1;--ty:-16px"/>
+          <rect x="20" y="359" width="560" height="2" style="--o:.71;--i:2;--ty:-33px"/>
+          <rect x="20" y="377" width="560" height="2" style="--o:.61;--i:3;--ty:-25px"/>
+          <rect x="20" y="396" width="560" height="1.8" style="--o:.52;--i:4;--ty:-44px"/>
+          <rect x="20" y="416" width="560" height="1.8" style="--o:.43;--i:5;--ty:-64px"/>
+          <rect x="20" y="437" width="560" height="1.6" style="--o:.34;--i:6;--ty:-85px"/>
+          <rect x="20" y="459" width="560" height="1.6" style="--o:.26;--i:7;--ty:-107px"/>
+          <rect x="20" y="482" width="560" height="1.5" style="--o:.15;--i:8;--ty:-130px"/>
+          <rect x="20" y="506" width="560" height="1.5" style="--o:.1;--i:9;--ty:-154px"/>
+          <rect x="20" y="531" width="560" height="1.4" style="--o:.06;--i:10;--ty:-179px"/>
         </g>
       </svg>
     </div>
@@ -258,11 +279,19 @@
 
   <section>
     <p class="lead">Make Claude Code answer short and plain. Laconic is an output style shipped as a plugin: no walls of text, no made-up jargon, no 400-word recap of a 10-second fix.</p>
-    <div class="copy-row">
-      <pre id="install"><span class="cmd">/plugin marketplace add</span> spenhouet/claude-laconic
-<span class="cmd">/plugin install</span> laconic@claude-laconic</pre>
-      <button class="copy" data-target="install">Copy</button>
+    <div class="cmds">
+      <div class="cmd-row">
+        <span class="step">1</span>
+        <code><b>/plugin marketplace add</b> spenhouet/claude-laconic</code>
+        <button class="copy" data-copy="/plugin marketplace add spenhouet/claude-laconic">Copy</button>
+      </div>
+      <div class="cmd-row">
+        <span class="step">2</span>
+        <code><b>/plugin install</b> laconic@claude-laconic</code>
+        <button class="copy" data-copy="/plugin install laconic@claude-laconic">Copy</button>
+      </div>
     </div>
+    <p class="cmd-note">Two separate prompts. Send the first, then the second.</p>
     <div class="cta">
       <a class="btn" href="https://github.com/spenhouet/claude-laconic">View on GitHub</a>
       <a class="btn ghost" href="https://github.com/spenhouet/claude-laconic/blob/main/output-styles/Laconic.md">Read the style</a>
@@ -321,16 +350,25 @@
 
   <section>
     <h2>Install</h2>
-    <p>Run both commands in Claude Code. The style applies automatically once the plugin is enabled, so there is nothing to pick in the settings.</p>
-    <div class="copy-row">
-      <pre id="install2"><span class="cmd">/plugin marketplace add</span> spenhouet/claude-laconic
-<span class="cmd">/plugin install</span> laconic@claude-laconic</pre>
-      <button class="copy" data-target="install2">Copy</button>
+    <p>Each command is its own prompt in Claude Code. Send the first, wait for it to finish, then send the second. The style applies automatically once the plugin is enabled, so there is nothing to pick in the settings.</p>
+    <div class="cmds">
+      <div class="cmd-row">
+        <span class="step">1</span>
+        <code><b>/plugin marketplace add</b> spenhouet/claude-laconic</code>
+        <button class="copy" data-copy="/plugin marketplace add spenhouet/claude-laconic">Copy</button>
+      </div>
+      <div class="cmd-row">
+        <span class="step">2</span>
+        <code><b>/plugin install</b> laconic@claude-laconic</code>
+        <button class="copy" data-copy="/plugin install laconic@claude-laconic">Copy</button>
+      </div>
     </div>
     <h3>Uninstall</h3>
-    <div class="copy-row">
-      <pre id="uninstall"><span class="cmd">/plugin uninstall</span> laconic@claude-laconic</pre>
-      <button class="copy" data-target="uninstall">Copy</button>
+    <div class="cmds">
+      <div class="cmd-row">
+        <code><b>/plugin uninstall</b> laconic@claude-laconic</code>
+        <button class="copy" data-copy="/plugin uninstall laconic@claude-laconic">Copy</button>
+      </div>
     </div>
   </section>
 
@@ -346,8 +384,7 @@
 <script>
   document.querySelectorAll("button.copy").forEach(function (btn) {
     btn.addEventListener("click", function () {
-      var text = document.getElementById(btn.dataset.target).innerText;
-      navigator.clipboard.writeText(text).then(function () {
+      navigator.clipboard.writeText(btn.dataset.copy).then(function () {
         btn.textContent = "Copied";
         setTimeout(function () { btn.textContent = "Copy"; }, 1600);
       });
