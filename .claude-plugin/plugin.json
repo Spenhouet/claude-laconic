@@ -1,8 +1,8 @@
 {
   "name": "laconic",
   "displayName": "Laconic",
-  "version": "1.0.1",
-  "description": "Blunt, pragmatic output style with a hard length budget and no AI writing tells.",
+  "version": "1.0.2",
+  "description": "Claude says less, in words you know. Short answers in plain language, on any task.",
   "author": {
     "name": "Sebastian Penhouet"
   },

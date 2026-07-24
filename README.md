@@ -2,7 +2,7 @@
   <img src="docs/img/banner.png" alt="Laconic. Less words. More signal. Claude Code plugin for short, clear, plain-language output with hard length budgets and no AI writing tells." width="100%">
 </p>
 
-Make Claude Code answer short and plain. This plugin ships the **Laconic** output style: no walls of text, no made-up jargon, no 400-word recap of a 10-second fix.
+**Claude says less, in words you know.** This plugin ships the **Laconic** output style: short answers in plain language, no walls of text, no made-up jargon, no 400-word recap of a 10-second fix.
 
 Site: [spenhouet.com/claude-laconic](https://spenhouet.com/claude-laconic)
 
