@@ -1,0 +1,14 @@
+{
+  "name": "claude-laconic",
+  "description": "Marketplace for the Laconic output style plugin.",
+  "owner": {
+    "name": "Sebastian Penhouet"
+  },
+  "plugins": [
+    {
+      "name": "laconic",
+      "source": "./",
+      "description": "Blunt, pragmatic output style with a hard length budget and no AI writing tells."
+    }
+  ]
+}
