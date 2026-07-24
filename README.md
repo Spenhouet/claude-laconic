@@ -1,6 +1,10 @@
-# claude-laconic
+<p align="center">
+  <img src="docs/img/banner.png" alt="Laconic. Less words. More signal. Claude Code plugin for short, clear, plain-language output with hard length budgets and no AI writing tells." width="100%">
+</p>
 
 Make Claude Code answer short and plain. This plugin ships the **Laconic** output style: no walls of text, no made-up jargon, no 400-word recap of a 10-second fix.
+
+Site: [spenhouet.github.io/claude-laconic](https://spenhouet.github.io/claude-laconic)
 
 ## The problem
 
@@ -8,7 +12,15 @@ Claude Code is a strong engineer and an exhausting narrator. Ask a simple questi
 
 > I smoke-verified the config-guarded "one authority per tibble" materialization core (clean), but the metadata-bearing patches (no-op) are spec-shaped, and that's a call that's genuinely yours.
 
-That is a [real complaint](https://x.com/riccoja/status/2079926205491429829), and [not an isolated one](https://x.com/lele_venturi/status/2079908144637980995). The model invents neologisms, references them as if you know them, and buries the one thing you need to decide under ten paragraphs of narration. Reading the report takes longer than the fix did.
+That is a real complaint, and not an isolated one.
+
+<p align="center">
+  <a href="https://x.com/riccoja/status/2079926205491429829"><img src="docs/img/tweet-riccoja.png" alt="Tweet by @riccoja quoting a wall of text from Claude" width="46%"></a>
+  &nbsp;
+  <a href="https://x.com/lele_venturi/status/2079908144637980995"><img src="docs/img/tweet-lele-venturi.png" alt="Tweet by @lele_venturi about LLMs inventing their own language" width="46%"></a>
+</p>
+
+The model invents neologisms, references them as if you know them, and buries the one thing you need to decide under ten paragraphs of narration. Reading the report takes longer than the fix did.
 
 ## What Laconic does
 
