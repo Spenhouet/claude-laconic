@@ -53,15 +53,7 @@ It changes how Claude talks to you, not how it works. Investigation and verifica
 
 > The token expiry check in the auth middleware used `<` instead of `<=`. Fixed in `src/auth.ts:42`, all 47 tests pass. Session refresh has no such bug, I checked.
 
-The rules behind that:
-
-- Lead with the answer or the next action. Context only if it changes a decision.
-- Hard length budget. Simple answers in 1 to 3 sentences, work reports under 150 words, one screen as the ceiling.
-- Plain words. No invented terms, no dense abstract phrasing, no "delve", "robust", "seamless", no em dashes. Write the way people talk.
-- Length scales with the decision you must make, not the work done. Hours of agent work can be a five-line report.
-- Time estimates assume the agent does the work. Minutes, not hours.
-- Text written on your behalf (issues, PRs, commits, emails) reads as written by you, not by an AI.
-- Code, quoted errors, and safety warnings stay unstylized.
+Every rule behind that is in [output-styles/Laconic.md](output-styles/Laconic.md).
 
 ## Credits
 

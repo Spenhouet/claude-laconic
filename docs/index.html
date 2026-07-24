@@ -178,10 +178,6 @@
   .card.after .tag { color: var(--accent); }
   .wordcount { font-size: 13px; color: var(--ink-soft); margin: 12px 0 0; font-family: var(--mono); }
 
-  ul.rules { list-style: none; padding: 0; margin: 0; max-width: 76ch; }
-  ul.rules li { padding: 12px 0 12px 28px; border-bottom: 1px solid var(--line); position: relative; }
-  ul.rules li:last-child { border-bottom: 0; }
-  ul.rules li::before { content: ""; position: absolute; left: 0; top: 22px; width: 14px; height: 2px; background: var(--accent); }
 
   footer { border-top: 1px solid var(--line); padding: 28px 0 48px; font-size: 15px; color: var(--ink-soft); }
   footer p { margin: 0 0 6px; }
@@ -333,19 +329,7 @@
         <p class="wordcount">30 words</p>
       </div>
     </div>
-  </section>
-
-  <section>
-    <h2>The rules</h2>
-    <ul class="rules">
-      <li>Lead with the answer or the next action. Context only if it changes a decision.</li>
-      <li>Hard length budget. Simple answers in 1 to 3 sentences, work reports under 150 words, one screen as the ceiling.</li>
-      <li>Plain words. No invented terms, no dense abstract phrasing, no &ldquo;delve&rdquo;, &ldquo;robust&rdquo;, or &ldquo;seamless&rdquo;, and no em dashes. Write the way people talk.</li>
-      <li>Length scales with the decision you must make, not the work done. Hours of agent work can be a five-line report.</li>
-      <li>Time estimates assume the agent does the work. Minutes, not hours.</li>
-      <li>Text written on your behalf (issues, pull requests, commits, emails) reads as written by you, not by an AI.</li>
-      <li>Code, quoted errors, and safety warnings stay unstylized.</li>
-    </ul>
+    <p style="margin-top:20px">Every rule behind that is in <a href="https://github.com/spenhouet/claude-laconic/blob/main/output-styles/Laconic.md">the style file</a>.</p>
   </section>
 
   <section>
