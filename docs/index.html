@@ -120,7 +120,7 @@
   @media (prefers-reduced-motion: reduce) {
     .rise, .disc, .mark-bars rect, .lines, .lines rect { animation: none; }
     .lines rect { opacity: var(--o); }
-    .lift, .lines rect, .disc { transition: none; }
+    .lift, .lines rect, .disc, .slide, .slides { transition: none; }
     .hero-art:hover .lines rect, .hero-art:hover .lift { transform: none; }
   }
 
@@ -165,11 +165,25 @@
   figure.shot img { border-radius: 10px; border: 1px solid rgba(23, 23, 26, .12); }
   figure.shot figcaption { margin-top: 9px; font-size: 13.5px; color: var(--ink-soft); }
 
-  .tweets { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; margin-top: 8px; align-items: start; }
-  .tweets figure { margin: 0; }
-  .tweets figure > a { display: block; border-radius: 14px; overflow: hidden; border: 1px solid var(--line); background: var(--panel); }
-  .tweets figure > a:hover { border-color: var(--accent); }
-  .tweets figcaption { margin-top: 10px; font-family: var(--mono); font-size: 13px; color: var(--ink-soft); }
+  .carousel { max-width: 440px; margin-top: 8px; }
+  .slides { position: relative; height: 560px; transition: height .55s cubic-bezier(.4, 0, .2, 1); }
+  .slide {
+    position: absolute; top: 0; left: 0; width: 100%; margin: 0;
+    opacity: 0; transform: translateX(16px); pointer-events: none;
+    transition: opacity .55s ease, transform .55s cubic-bezier(.4, 0, .2, 1);
+  }
+  .slide.is-active { opacity: 1; transform: none; pointer-events: auto; }
+  .slide > a { display: block; border-radius: 14px; overflow: hidden; border: 1px solid var(--line); background: var(--panel); }
+  .slide > a:hover { border-color: var(--accent); }
+  .slide figcaption { margin-top: 10px; font-family: var(--mono); font-size: 13px; color: var(--ink-soft); }
+  .dots { display: flex; gap: 9px; margin-top: 16px; }
+  .dots button {
+    width: 8px; height: 8px; padding: 0; border-radius: 50%; cursor: pointer;
+    border: 1px solid var(--accent); background: transparent;
+    transition: background .3s ease, transform .3s ease;
+  }
+  .dots button:hover { background: rgba(192, 138, 94, .45); }
+  .dots button.is-active { background: var(--accent); transform: scale(1.35); }
 
   .compare { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
   .card { background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 20px 22px; }
@@ -195,7 +209,7 @@
     .lead { font-size: 18px; }
     .pillars { gap: 14px 0; }
     .pillars li { flex: 1 1 45%; padding: 0; border-left: 0; }
-    .tweets, .compare { grid-template-columns: 1fr; }
+    .compare { grid-template-columns: 1fr; }
   }
 </style>
 </head>
@@ -309,15 +323,31 @@
   <section>
     <h2>The problem</h2>
     <p>Claude Code is a strong engineer and an exhausting narrator. Ask a simple question and you get a wall of text too long to read. Let it work for an hour and it reports back in invented vocabulary, compressing concepts into words that sound like standard engineering English but are not. It buries the one thing you need to decide under ten paragraphs of narration, and reading the report takes longer than the fix did.</p>
-    <div class="tweets">
-      <figure>
-        <a href="https://x.com/riccoja/status/2079926205491429829"><img src="img/tweets/tweet-riccoja.png" alt="Tweet by @riccoja quoting a wall of text from Claude full of invented terms" width="1000" height="1191"></a>
-        <figcaption><a href="https://x.com/riccoja/status/2079926205491429829">@riccoja, 22 Jul 2026</a></figcaption>
-      </figure>
-      <figure>
-        <a href="https://x.com/lele_venturi/status/2079908144637980995"><img src="img/tweets/tweet-lele-venturi.png" alt="Tweet by @lele_venturi asking whether you can survive a four-hour conversation without an LLM inventing its own language" width="1000" height="1039"></a>
-        <figcaption><a href="https://x.com/lele_venturi/status/2079908144637980995">@lele_venturi, 22 Jul 2026</a></figcaption>
-      </figure>
+    <div class="carousel" data-interval="5500">
+      <div class="slides">
+        <figure class="slide is-active">
+          <a href="https://x.com/riccoja/status/2079926205491429829"><img src="img/tweets/tweet-riccoja.png" alt="Tweet by @riccoja quoting a wall of text from Claude full of invented terms" width="1000" height="1191"></a>
+          <figcaption><a href="https://x.com/riccoja/status/2079926205491429829">@riccoja, 22 Jul 2026</a></figcaption>
+        </figure>
+        <figure class="slide">
+          <a href="https://x.com/lele_venturi/status/2079908144637980995"><img src="img/tweets/tweet-lele-venturi.png" alt="Tweet by @lele_venturi asking whether you can survive a four-hour conversation without an LLM inventing its own language" width="1000" height="1039" loading="lazy"></a>
+          <figcaption><a href="https://x.com/lele_venturi/status/2079908144637980995">@lele_venturi, 22 Jul 2026</a></figcaption>
+        </figure>
+        <figure class="slide">
+          <a href="https://x.com/_amanda_long/status/2080767058136945010"><img src="img/tweets/tweet-amanda-long.png" alt="Tweet by @_amanda_long saying she cannot understand the model without thinking traces, quoting a dense passage about summaries stripping the verification signal" width="1000" height="1303" loading="lazy"></a>
+          <figcaption><a href="https://x.com/_amanda_long/status/2080767058136945010">@_amanda_long, 24 Jul 2026</a></figcaption>
+        </figure>
+        <figure class="slide">
+          <a href="https://x.com/dlouapre/status/2080908716002488411"><img src="img/tweets/tweet-dlouapre.png" alt="Tweet by @dlouapre about the curse of knowledge, showing a prompt asking the model to explain clearly and slowly in plain language" width="1000" height="897" loading="lazy"></a>
+          <figcaption><a href="https://x.com/dlouapre/status/2080908716002488411">@dlouapre, 25 Jul 2026</a></figcaption>
+        </figure>
+      </div>
+      <div class="dots">
+        <button type="button" class="is-active" aria-label="Tweet by @riccoja"></button>
+        <button type="button" aria-label="Tweet by @lele_venturi"></button>
+        <button type="button" aria-label="Tweet by @_amanda_long"></button>
+        <button type="button" aria-label="Tweet by @dlouapre"></button>
+      </div>
     </div>
   </section>
 
@@ -382,6 +412,46 @@
 </footer>
 
 <script>
+  document.querySelectorAll(".carousel").forEach(function (car) {
+    var slides = car.querySelectorAll(".slide");
+    var dots = car.querySelectorAll(".dots button");
+    var box = car.querySelector(".slides");
+    var still = matchMedia("(prefers-reduced-motion: reduce)").matches;
+    var at = 0, timer = null;
+
+    function fit() { box.style.height = slides[at].offsetHeight + "px"; }
+
+    function show(i) {
+      at = (i + slides.length) % slides.length;
+      slides.forEach(function (s, n) { s.classList.toggle("is-active", n === at); });
+      dots.forEach(function (d, n) { d.classList.toggle("is-active", n === at); });
+      fit();
+    }
+
+    function play() {
+      if (still || timer) return;
+      timer = setInterval(function () { show(at + 1); }, +car.dataset.interval || 5500);
+    }
+    function stop() { clearInterval(timer); timer = null; }
+
+    dots.forEach(function (d, n) {
+      d.addEventListener("click", function () { stop(); show(n); play(); });
+    });
+    car.addEventListener("mouseenter", stop);
+    car.addEventListener("mouseleave", play);
+    car.addEventListener("focusin", stop);
+    car.addEventListener("focusout", play);
+    document.addEventListener("visibilitychange", function () { document.hidden ? stop() : play(); });
+    addEventListener("resize", fit);
+    slides.forEach(function (s) {
+      var img = s.querySelector("img");
+      if (img && !img.complete) img.addEventListener("load", fit);
+    });
+
+    fit();
+    play();
+  });
+
   document.querySelectorAll("button.copy").forEach(function (btn) {
     btn.addEventListener("click", function () {
       navigator.clipboard.writeText(btn.dataset.copy).then(function () {
