@@ -353,20 +353,20 @@
     <div class="carousel" data-interval="5000" role="group" aria-label="What people say about Claude's writing">
       <div class="stage">
         <figure class="slide">
-          <a href="https://x.com/riccoja/status/2079926205491429829"><img src="img/tweets/tweet-riccoja.png" alt="Tweet by @riccoja quoting a wall of text from Claude full of invented terms" width="1000" height="1191"></a>
-          <figcaption><a href="https://x.com/riccoja/status/2079926205491429829">@riccoja, 22 Jul 2026</a></figcaption>
+          <a target="_blank" rel="noopener" href="https://x.com/riccoja/status/2079926205491429829"><img src="img/tweets/tweet-riccoja.png" alt="Tweet by @riccoja quoting a wall of text from Claude full of invented terms" width="1000" height="1191"></a>
+          <figcaption><a target="_blank" rel="noopener" href="https://x.com/riccoja/status/2079926205491429829">@riccoja, 22 Jul 2026</a></figcaption>
         </figure>
         <figure class="slide">
-          <a href="https://x.com/lele_venturi/status/2079908144637980995"><img src="img/tweets/tweet-lele-venturi.png" alt="Tweet by @lele_venturi asking whether you can survive a four-hour conversation without an LLM inventing its own language" width="1000" height="1039" loading="lazy"></a>
-          <figcaption><a href="https://x.com/lele_venturi/status/2079908144637980995">@lele_venturi, 22 Jul 2026</a></figcaption>
+          <a target="_blank" rel="noopener" href="https://x.com/lele_venturi/status/2079908144637980995"><img src="img/tweets/tweet-lele-venturi.png" alt="Tweet by @lele_venturi asking whether you can survive a four-hour conversation without an LLM inventing its own language" width="1000" height="1039" loading="lazy"></a>
+          <figcaption><a target="_blank" rel="noopener" href="https://x.com/lele_venturi/status/2079908144637980995">@lele_venturi, 22 Jul 2026</a></figcaption>
         </figure>
         <figure class="slide">
-          <a href="https://x.com/_amanda_long/status/2080767058136945010"><img src="img/tweets/tweet-amanda-long.png" alt="Tweet by @_amanda_long saying she cannot understand the model without thinking traces, quoting a dense passage about summaries stripping the verification signal" width="1000" height="1303" loading="lazy"></a>
-          <figcaption><a href="https://x.com/_amanda_long/status/2080767058136945010">@_amanda_long, 24 Jul 2026</a></figcaption>
+          <a target="_blank" rel="noopener" href="https://x.com/_amanda_long/status/2080767058136945010"><img src="img/tweets/tweet-amanda-long.png" alt="Tweet by @_amanda_long saying she cannot understand the model without thinking traces, quoting a dense passage about summaries stripping the verification signal" width="1000" height="1303" loading="lazy"></a>
+          <figcaption><a target="_blank" rel="noopener" href="https://x.com/_amanda_long/status/2080767058136945010">@_amanda_long, 24 Jul 2026</a></figcaption>
         </figure>
         <figure class="slide">
-          <a href="https://x.com/dlouapre/status/2080908716002488411"><img src="img/tweets/tweet-dlouapre.png" alt="Tweet by @dlouapre about the curse of knowledge, showing a prompt asking the model to explain clearly and slowly in plain language" width="1000" height="897" loading="lazy"></a>
-          <figcaption><a href="https://x.com/dlouapre/status/2080908716002488411">@dlouapre, 25 Jul 2026</a></figcaption>
+          <a target="_blank" rel="noopener" href="https://x.com/dlouapre/status/2080908716002488411"><img src="img/tweets/tweet-dlouapre.png" alt="Tweet by @dlouapre about the curse of knowledge, showing a prompt asking the model to explain clearly and slowly in plain language" width="1000" height="897" loading="lazy"></a>
+          <figcaption><a target="_blank" rel="noopener" href="https://x.com/dlouapre/status/2080908716002488411">@dlouapre, 25 Jul 2026</a></figcaption>
         </figure>
       </div>
       <div class="dots">
@@ -498,27 +498,39 @@
     function stop() { clearInterval(timer); timer = null; }
 
     // drag and swipe
-    var down = null, moved = 0, swallowClick = false;
+    var down = null, moved = 0, swallowClick = false, dragging = false;
     slides.forEach(function (s) {
       s.querySelectorAll("a, img").forEach(function (el) { el.draggable = false; });
     });
     stage.addEventListener("dragstart", function (e) { e.preventDefault(); });
+
+    // no pointer capture: it would retarget the click away from the tweet link
+    function onMove(e) {
+      if (down === null) return;
+      moved = e.clientX - down;
+      if (!dragging && Math.abs(moved) > 5) {
+        dragging = true;
+        stage.classList.add("dragging");
+      }
+      if (dragging) car.style.setProperty("--drag", moved + "px");
+    }
+
     stage.addEventListener("pointerdown", function (e) {
       if (e.button) return;
       down = e.clientX;
       moved = 0;
       swallowClick = false;
+      dragging = false;
       stop();
-      stage.classList.add("dragging");
-      try { stage.setPointerCapture(e.pointerId); } catch (err) { /* synthetic pointers */ }
-    });
-    stage.addEventListener("pointermove", function (e) {
-      if (down === null) return;
-      moved = e.clientX - down;
-      car.style.setProperty("--drag", moved + "px");
+      addEventListener("pointermove", onMove);
+      addEventListener("pointerup", release);
+      addEventListener("pointercancel", release);
     });
     function release() {
       if (down === null) return;
+      removeEventListener("pointermove", onMove);
+      removeEventListener("pointerup", release);
+      removeEventListener("pointercancel", release);
       var threshold = Math.min(70, stage.offsetWidth * 0.12);
       stage.classList.remove("dragging");
       car.style.setProperty("--drag", "0px");
@@ -526,11 +538,9 @@
       else if (moved >= threshold) go(at - 1);
       swallowClick = Math.abs(moved) > 8;
       down = null;
+      dragging = false;
       play();
     }
-    stage.addEventListener("pointerup", release);
-    stage.addEventListener("pointercancel", release);
-    stage.addEventListener("lostpointercapture", release);
     stage.addEventListener("click", function (e) {
       if (swallowClick) {
         swallowClick = false;
