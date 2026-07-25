@@ -161,6 +161,9 @@
   }
   button.copy:hover { border-color: #e8b98d; background: rgba(232, 185, 141, .12); }
   .cmd-note { font-size: 14.5px; color: var(--ink-soft); margin: 12px 0 0; }
+  figure.shot { margin: 16px 0 0; max-width: 640px; }
+  figure.shot img { border-radius: 10px; border: 1px solid rgba(23, 23, 26, .12); }
+  figure.shot figcaption { margin-top: 9px; font-size: 13.5px; color: var(--ink-soft); }
 
   .tweets { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; margin-top: 8px; align-items: start; }
   .tweets figure { margin: 0; }
@@ -293,6 +296,10 @@
       </div>
     </div>
     <p class="cmd-note">One prompt at a time. In step 3, open &ldquo;Output style&rdquo; and select &ldquo;laconic:Laconic&rdquo;.</p>
+    <figure class="shot">
+      <img src="img/claude-code-config.jpg" alt="The Claude Code config screen filtered to Output style, set to laconic:Laconic" width="737" height="159">
+      <figcaption>Step 3 done: the style is on.</figcaption>
+    </figure>
     <div class="cta">
       <a class="btn" href="https://github.com/spenhouet/claude-laconic">View on GitHub</a>
       <a class="btn ghost" href="https://github.com/spenhouet/claude-laconic/blob/main/output-styles/Laconic.md">Read the style</a>
@@ -352,6 +359,10 @@
         <button class="copy" data-copy="/config">Copy</button>
       </div>
     </div>
+    <figure class="shot">
+      <img src="img/claude-code-config.jpg" alt="The Claude Code config screen filtered to Output style, set to laconic:Laconic" width="737" height="159">
+      <figcaption>Step 3 done: the style is on.</figcaption>
+    </figure>
     <h3>Uninstall</h3>
     <div class="cmds">
       <div class="cmd-row">
