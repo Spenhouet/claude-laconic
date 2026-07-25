@@ -1,7 +1,7 @@
 {
   "name": "laconic",
   "displayName": "Laconic",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "Claude says less, in words you know. Short answers in plain language, on any task.",
   "author": {
     "name": "Sebastian Penhouet"
