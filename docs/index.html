@@ -191,6 +191,8 @@
     box-shadow: 0 10px 30px rgba(23, 23, 26, .1);
   }
   .slide.is-active > a:hover { border-color: var(--accent); }
+  .slide:not(.is-active) { cursor: pointer; }
+  .slide img, .slide > a { -webkit-user-drag: none; }
   .slide figcaption {
     margin-top: 10px; font-family: var(--mono); font-size: 13px; color: var(--ink-soft);
     opacity: 0; transition: opacity .4s ease;
@@ -496,11 +498,16 @@
     function stop() { clearInterval(timer); timer = null; }
 
     // drag and swipe
-    var down = null, moved = 0;
+    var down = null, moved = 0, swallowClick = false;
+    slides.forEach(function (s) {
+      s.querySelectorAll("a, img").forEach(function (el) { el.draggable = false; });
+    });
+    stage.addEventListener("dragstart", function (e) { e.preventDefault(); });
     stage.addEventListener("pointerdown", function (e) {
       if (e.button) return;
       down = e.clientX;
       moved = 0;
+      swallowClick = false;
       stop();
       stage.classList.add("dragging");
       try { stage.setPointerCapture(e.pointerId); } catch (err) { /* synthetic pointers */ }
@@ -517,13 +524,29 @@
       car.style.setProperty("--drag", "0px");
       if (moved <= -threshold) go(at + 1);
       else if (moved >= threshold) go(at - 1);
+      swallowClick = Math.abs(moved) > 8;
       down = null;
       play();
     }
     stage.addEventListener("pointerup", release);
     stage.addEventListener("pointercancel", release);
+    stage.addEventListener("lostpointercapture", release);
     stage.addEventListener("click", function (e) {
-      if (Math.abs(moved) > 8) e.preventDefault();
+      if (swallowClick) {
+        swallowClick = false;
+        e.preventDefault();
+        e.stopPropagation();
+        return;
+      }
+      // clicking a preview brings it to the middle instead of opening it
+      var fig = e.target.closest && e.target.closest(".slide");
+      if (fig && !fig.classList.contains("is-active")) {
+        e.preventDefault();
+        e.stopPropagation();
+        stop();
+        go(slides.indexOf(fig));
+        play();
+      }
     }, true);
 
     dots.forEach(function (dot, i) {
