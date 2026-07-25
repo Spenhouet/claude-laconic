@@ -120,7 +120,7 @@
   @media (prefers-reduced-motion: reduce) {
     .rise, .disc, .mark-bars rect, .lines, .lines rect { animation: none; }
     .lines rect { opacity: var(--o); }
-    .lift, .lines rect, .disc, .slide, .slides { transition: none; }
+    .lift, .lines rect, .disc, .slide { transition: none; }
     .hero-art:hover .lines rect, .hero-art:hover .lift { transform: none; }
   }
 
@@ -165,17 +165,37 @@
   figure.shot img { border-radius: 10px; border: 1px solid rgba(23, 23, 26, .12); }
   figure.shot figcaption { margin-top: 9px; font-size: 13.5px; color: var(--ink-soft); }
 
-  .carousel { max-width: 440px; margin-top: 8px; }
-  .slides { position: relative; height: 560px; transition: height .55s cubic-bezier(.4, 0, .2, 1); }
-  .slide {
-    position: absolute; top: 0; left: 0; width: 100%; margin: 0;
-    opacity: 0; transform: translateX(16px); pointer-events: none;
-    transition: opacity .55s ease, transform .55s cubic-bezier(.4, 0, .2, 1);
+  .carousel { --cardw: 400px; --stepr: .73; margin-top: 8px; }
+  .stage {
+    position: relative; height: 560px; overflow: hidden;
+    touch-action: pan-y; cursor: grab; user-select: none;
+    -webkit-mask-image: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent);
+    mask-image: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent);
   }
-  .slide.is-active { opacity: 1; transform: none; pointer-events: auto; }
-  .slide > a { display: block; border-radius: 14px; overflow: hidden; border: 1px solid var(--line); background: var(--panel); }
-  .slide > a:hover { border-color: var(--accent); }
-  .slide figcaption { margin-top: 10px; font-family: var(--mono); font-size: 13px; color: var(--ink-soft); }
+  .stage.dragging { cursor: grabbing; }
+  .slide {
+    position: absolute; top: 0; left: 50%; width: var(--cardw); margin: 0;
+    --x: 0px; --s: 1;
+    transform: translateX(calc(-50% + var(--x) + var(--drag, 0px))) scale(var(--s));
+    opacity: 0;
+    transition: transform .6s cubic-bezier(.22, .61, .36, 1), opacity .6s ease;
+    will-change: transform;
+  }
+  .slide:first-child { opacity: 1; }
+  .stage.dragging .slide { transition: none; }
+  /* a slide that has to swap sides hops there while it is still invisible */
+  .slide.no-tween { transition: opacity .6s ease; }
+  .slide > a {
+    display: block; border-radius: 14px; overflow: hidden;
+    border: 1px solid var(--line); background: var(--panel);
+    box-shadow: 0 10px 30px rgba(23, 23, 26, .1);
+  }
+  .slide.is-active > a:hover { border-color: var(--accent); }
+  .slide figcaption {
+    margin-top: 10px; font-family: var(--mono); font-size: 13px; color: var(--ink-soft);
+    opacity: 0; transition: opacity .4s ease;
+  }
+  .slide.is-active figcaption { opacity: 1; }
   .dots { display: flex; gap: 9px; margin-top: 16px; }
   .dots button {
     width: 8px; height: 8px; padding: 0; border-radius: 50%; cursor: pointer;
@@ -210,6 +230,11 @@
     .pillars { gap: 14px 0; }
     .pillars li { flex: 1 1 45%; padding: 0; border-left: 0; }
     .compare { grid-template-columns: 1fr; }
+    .carousel { --cardw: min(74vw, 300px); --stepr: .84; }
+    .stage {
+      -webkit-mask-image: linear-gradient(90deg, transparent, #000 4%, #000 96%, transparent);
+      mask-image: linear-gradient(90deg, transparent, #000 4%, #000 96%, transparent);
+    }
   }
 </style>
 </head>
@@ -323,9 +348,9 @@
   <section>
     <h2>The problem</h2>
     <p>Claude Code is a strong engineer and an exhausting narrator. Ask a simple question and you get a wall of text too long to read. Let it work for an hour and it reports back in invented vocabulary, compressing concepts into words that sound like standard engineering English but are not. It buries the one thing you need to decide under ten paragraphs of narration, and reading the report takes longer than the fix did.</p>
-    <div class="carousel" data-interval="5500">
-      <div class="slides">
-        <figure class="slide is-active">
+    <div class="carousel" data-interval="5000" role="group" aria-label="What people say about Claude's writing">
+      <div class="stage">
+        <figure class="slide">
           <a href="https://x.com/riccoja/status/2079926205491429829"><img src="img/tweets/tweet-riccoja.png" alt="Tweet by @riccoja quoting a wall of text from Claude full of invented terms" width="1000" height="1191"></a>
           <figcaption><a href="https://x.com/riccoja/status/2079926205491429829">@riccoja, 22 Jul 2026</a></figcaption>
         </figure>
@@ -413,42 +438,114 @@
 
 <script>
   document.querySelectorAll(".carousel").forEach(function (car) {
-    var slides = car.querySelectorAll(".slide");
-    var dots = car.querySelectorAll(".dots button");
-    var box = car.querySelector(".slides");
+    var slides = [].slice.call(car.querySelectorAll(".slide"));
+    var dots = [].slice.call(car.querySelectorAll(".dots button"));
+    var stage = car.querySelector(".stage");
     var still = matchMedia("(prefers-reduced-motion: reduce)").matches;
+    var n = slides.length;
     var at = 0, timer = null;
 
-    function fit() { box.style.height = slides[at].offsetHeight + "px"; }
-
-    function show(i) {
-      at = (i + slides.length) % slides.length;
-      slides.forEach(function (s, n) { s.classList.toggle("is-active", n === at); });
-      dots.forEach(function (d, n) { d.classList.toggle("is-active", n === at); });
-      fit();
+    // shortest way round the ring, so slide order never jumps
+    function offset(i) {
+      var d = i - at;
+      if (d > n / 2) d -= n;
+      if (d < -n / 2) d += n;
+      return d;
     }
+
+    function fit() {
+      var tallest = slides.reduce(function (h, s) { return Math.max(h, s.offsetHeight); }, 0);
+      stage.style.height = tallest + "px";
+    }
+
+    var wasAt = null;
+    function place() {
+      var ratio = parseFloat(getComputedStyle(car).getPropertyValue("--stepr")) || 0.73;
+      var step = slides[0].offsetWidth * ratio;
+      slides.forEach(function (s, i) {
+        var d = offset(i);
+        var near = Math.abs(d) <= 1;
+        if (wasAt !== null) {
+          var before = i - wasAt;
+          if (before > n / 2) before -= n;
+          if (before < -n / 2) before += n;
+          if (Math.abs(before) > 1 && before * d < 0) {
+            s.classList.add("no-tween");
+            requestAnimationFrame(function () {
+              requestAnimationFrame(function () { s.classList.remove("no-tween"); });
+            });
+          }
+        }
+        s.style.setProperty("--x", (near ? d * step : d * step * 1.5) + "px");
+        s.style.setProperty("--s", d === 0 ? "1" : near ? "0.86" : "0.78");
+        s.style.opacity = d === 0 ? "1" : near ? "0.5" : "0";
+        s.style.zIndex = d === 0 ? "3" : near ? "2" : "1";
+        s.classList.toggle("is-active", d === 0);
+        s.setAttribute("aria-hidden", d === 0 ? "false" : "true");
+      });
+      dots.forEach(function (dot, i) { dot.classList.toggle("is-active", i === at); });
+      wasAt = at;
+    }
+
+    function go(i) { at = (i + n) % n; place(); }
 
     function play() {
       if (still || timer) return;
-      timer = setInterval(function () { show(at + 1); }, +car.dataset.interval || 5500);
+      timer = setInterval(function () { go(at + 1); }, +car.dataset.interval || 5000);
     }
     function stop() { clearInterval(timer); timer = null; }
 
-    dots.forEach(function (d, n) {
-      d.addEventListener("click", function () { stop(); show(n); play(); });
+    // drag and swipe
+    var down = null, moved = 0;
+    stage.addEventListener("pointerdown", function (e) {
+      if (e.button) return;
+      down = e.clientX;
+      moved = 0;
+      stop();
+      stage.classList.add("dragging");
+      try { stage.setPointerCapture(e.pointerId); } catch (err) { /* synthetic pointers */ }
+    });
+    stage.addEventListener("pointermove", function (e) {
+      if (down === null) return;
+      moved = e.clientX - down;
+      car.style.setProperty("--drag", moved + "px");
+    });
+    function release() {
+      if (down === null) return;
+      var threshold = Math.min(70, stage.offsetWidth * 0.12);
+      stage.classList.remove("dragging");
+      car.style.setProperty("--drag", "0px");
+      if (moved <= -threshold) go(at + 1);
+      else if (moved >= threshold) go(at - 1);
+      down = null;
+      play();
+    }
+    stage.addEventListener("pointerup", release);
+    stage.addEventListener("pointercancel", release);
+    stage.addEventListener("click", function (e) {
+      if (Math.abs(moved) > 8) e.preventDefault();
+    }, true);
+
+    dots.forEach(function (dot, i) {
+      dot.addEventListener("click", function () { stop(); go(i); play(); });
+    });
+    car.addEventListener("keydown", function (e) {
+      if (e.key === "ArrowRight") { stop(); go(at + 1); play(); }
+      if (e.key === "ArrowLeft") { stop(); go(at - 1); play(); }
     });
     car.addEventListener("mouseenter", stop);
     car.addEventListener("mouseleave", play);
     car.addEventListener("focusin", stop);
     car.addEventListener("focusout", play);
     document.addEventListener("visibilitychange", function () { document.hidden ? stop() : play(); });
-    addEventListener("resize", fit);
+    addEventListener("resize", function () { fit(); place(); });
     slides.forEach(function (s) {
       var img = s.querySelector("img");
-      if (img && !img.complete) img.addEventListener("load", fit);
+      if (img && !img.complete) img.addEventListener("load", function () { fit(); place(); });
     });
 
     fit();
+    place();
     play();
   });
 
