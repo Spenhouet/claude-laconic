@@ -41,7 +41,9 @@ Then turn the style on:
 /config
 ```
 
-Open "Output style" and select "laconic:Laconic".
+Open "Output style" and select "laconic:Laconic":
+
+<img src="docs/img/claude-code-config.jpg" alt="The Claude Code config screen filtered to Output style, set to laconic:Laconic" width="640">
 
 To remove it:
 
