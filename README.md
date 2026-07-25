@@ -35,7 +35,15 @@ Two separate prompts in Claude Code. Send the first, then the second:
 /plugin install laconic@claude-laconic
 ```
 
-The style applies automatically once the plugin is enabled, so there is nothing to pick in the settings. To remove it:
+Then turn the style on:
+
+```
+/config
+```
+
+Open "Output style" and select "laconic:Laconic".
+
+To remove it:
 
 ```
 /plugin uninstall laconic@claude-laconic
