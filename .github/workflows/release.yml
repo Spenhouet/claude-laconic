@@ -42,12 +42,12 @@ jobs:
           if [ -z "$TARGET" ]; then
             TARGET="${{ github.event.inputs.version_bump }}"
           fi
-          NEW_VERSION=$(python3 scripts/bump-version.py "$TARGET")
+          NEW_VERSION=$(python3 .github/scripts/bump-version.py "$TARGET")
           echo "value=${NEW_VERSION}" >> "$GITHUB_OUTPUT"
           echo "Releasing ${NEW_VERSION}"
 
       - name: Check the manifests
-        run: python3 scripts/check-manifests.py
+        run: python3 .github/scripts/check-manifests.py
 
       - name: Commit the version bump
         run: |
