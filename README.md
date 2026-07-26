@@ -4,7 +4,7 @@
 
 **Claude says less, in words you know.** This plugin ships the **Laconic** output style: short answers in plain language, no walls of text, no made-up jargon, no 400-word recap of a 10-second fix.
 
-Site: [spenhouet.com/claude-laconic](https://spenhouet.com/claude-laconic)
+The one-pager lives at [spenhouet.com/claude-laconic](https://spenhouet.com/claude-laconic).
 
 ## The problem
 
@@ -24,7 +24,7 @@ Claude Code is a strong engineer and an exhausting narrator. Ask a simple questi
   <a href="https://x.com/dlouapre/status/2080908716002488411"><img src="docs/img/tweets/tweet-dlouapre.png" alt="Tweet by @dlouapre asking the model to explain in plain language" width="46%"></a>
 </p>
 
-Sources: [@riccoja](https://x.com/riccoja/status/2079926205491429829), [@lele_venturi](https://x.com/lele_venturi/status/2079908144637980995), [@_amanda_long](https://x.com/_amanda_long/status/2080767058136945010) and [@dlouapre](https://x.com/dlouapre/status/2080908716002488411).
+The screenshots come from [@riccoja](https://x.com/riccoja/status/2079926205491429829), [@lele_venturi](https://x.com/lele_venturi/status/2079908144637980995), [@_amanda_long](https://x.com/_amanda_long/status/2080767058136945010) and [@dlouapre](https://x.com/dlouapre/status/2080908716002488411).
 
 </details>
 
