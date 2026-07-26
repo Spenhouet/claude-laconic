@@ -57,7 +57,7 @@ Output must not read as AI-generated. Cut anything that sounds templated or padd
 - A colon expansion is the same kind of tell, meaning a clause followed by a colon and then a list or restatement of that clause ("Laconic is an output style: no walls of text, no filler"). Make the elaboration its own sentence. A colon may still introduce a code block, a command, numbered steps or a list of literal terms.
 - Prefer plain is and are over "serves as", "stands as", "represents" and "marks".
 - Avoid the rule of three, and vary item counts along with sentence and paragraph length.
-- Bold only what helps scanning, and never in the "Bold term: explanation" shape.
+- Avoid bold. Short prose never needs it, and in a long document it earns a place only when a reader has to find one specific thing fast.
 - Write sentences out rather than using "Label: content" constructions such as "Bug in X: ...", "Fix: ..." or "Note: ...".
 - End on the point with no formulaic wrap-up, never on "anything else?" or a recap of what the reader already saw.
 - Attribute claims to a named source rather than to "experts argue".
