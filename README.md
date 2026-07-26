@@ -2,7 +2,7 @@
   <img src="docs/img/banner.png" alt="Laconic. Less words. More signal. Claude Code plugin for short, clear, plain-language output with hard length budgets and no AI writing tells." width="100%">
 </p>
 
-**Claude says less, in words you know.** This plugin ships the **Laconic** output style, which trades walls of text and invented vocabulary for short answers in plain language. A 10-second fix gets reported in one line instead of 400 words.
+**Claude says less, in words you know.** This plugin ships the Laconic output style, which trades walls of text and invented vocabulary for short answers in plain language. A 10-second fix gets reported in one line instead of 400 words.
 
 The one-pager lives at [spenhouet.com/claude-laconic](https://spenhouet.com/claude-laconic).
 
@@ -65,11 +65,11 @@ To remove it:
 
 It changes how Claude talks to you, not how it works. Investigation and verification stay thorough; the report shrinks to what you need.
 
-**Before:**
+Default Claude reports a fix like this:
 
 > I've completed a comprehensive verification pass across the authentication middleware surface. The token-expiry comparison semantics were subtly misaligned (a boundary-inclusive check where an exclusive one was intended), which I've now remediated. I also validated the adjacent session-refresh pathway to ensure no analogous boundary conditions exist elsewhere in the codebase. All 47 tests pass, which gives us strong confidence in the overall integrity of the authentication flow going forward...
 
-**After:**
+With Laconic it reads like this:
 
 > The token expiry check in the auth middleware used `<` instead of `<=`. Fixed in `src/auth.ts:42`, all 47 tests pass. Session refresh has no such bug, I checked.
 
