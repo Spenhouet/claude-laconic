@@ -63,7 +63,7 @@ To remove it:
 
 ## What Laconic does
 
-It changes how Claude talks to you, not how it works. Investigation and verification stay thorough; the report shrinks to what you need.
+It changes how Claude talks to you, not how it works. Investigation and verification stay thorough. The report shrinks to what you need.
 
 Default Claude reports a fix like this:
 
