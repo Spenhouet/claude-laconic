@@ -1,0 +1,75 @@
+name: Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      version_bump:
+        description: "Version bump type"
+        required: true
+        default: "patch"
+        type: choice
+        options:
+          - patch
+          - minor
+          - major
+          - alpha
+          - beta
+          - rc
+      custom_version:
+        description: "Custom version (leave empty to use bump type)"
+        required: false
+        type: string
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    name: Bump version, tag and publish release
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.version.outputs.value }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set the new version
+        id: version
+        run: |
+          TARGET="${{ github.event.inputs.custom_version }}"
+          if [ -z "$TARGET" ]; then
+            TARGET="${{ github.event.inputs.version_bump }}"
+          fi
+          NEW_VERSION=$(python3 scripts/bump-version.py "$TARGET")
+          echo "value=${NEW_VERSION}" >> "$GITHUB_OUTPUT"
+          echo "Releasing ${NEW_VERSION}"
+
+      - name: Check the manifests
+        run: python3 scripts/check-manifests.py
+
+      - name: Commit the version bump
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add -u .claude-plugin/plugin.json
+          git diff --cached --quiet || git commit -m "Release ${{ steps.version.outputs.value }}"
+          git push
+
+      - name: Tag the release
+        run: |
+          git tag "${{ steps.version.outputs.value }}"
+          git push origin "${{ steps.version.outputs.value }}"
+
+      - name: Publish the GitHub release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          PRERELEASE=""
+          case "${{ steps.version.outputs.value }}" in
+            *-*) PRERELEASE="--prerelease" ;;
+          esac
+          gh release create "${{ steps.version.outputs.value }}" \
+            --title "Release ${{ steps.version.outputs.value }}" \
+            --generate-notes $PRERELEASE
